@@ -1,5 +1,14 @@
-import { Button, Center, Divider, Textarea } from "@mantine/core";
+import {
+    Button,
+    Center,
+    Divider,
+    Pagination,
+    Paper,
+    Space,
+    Textarea,
+} from "@mantine/core";
 import { Table } from "@mantine/core";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     evaluateResumes,
@@ -9,12 +18,14 @@ import {
 const EvaluateResume = () => {
     const dispatch = useDispatch();
     const candidates = useSelector(selectAllCandidates);
+    const [jd, setJd] = useState("");
+    const [activePage, setPage] = useState(1);
 
     const onEvaluationSubmit = () => {
         console.log("Submitted");
         dispatch(
             evaluateResumes({
-                jobDescrption: "The job is very easy",
+                jobDescrption: jd,
             })
         );
     };
@@ -29,33 +40,56 @@ const EvaluateResume = () => {
 
     return (
         <Center style={{ display: "block", margin: "auto" }}>
-            <Textarea
-                placeholder="Job Description"
-                autosize
-                minRows={10}
-                w={"50vw"}
-            />
-            <div style={{ height: "20px" }}></div>
+            <Paper withBorder p={"sm"} pt={"xs"}>
+                <Textarea
+                    placeholder="Job Description"
+                    autosize
+                    minRows={10}
+                    w={"50vw"}
+                    variant="unstyled"
+                    pt={"0px"}
+                    value={jd}
+                    onChange={(e) => setJd(e.target.value)}
+                />
+            </Paper>
+
+            <Space h="xl" />
             <Button
                 w={200}
                 fullWidth
                 onClick={onEvaluationSubmit}
                 style={{ margin: "auto" }}
+                disabled={jd === "" ? true : false}
             >
                 Evaluate Resumes
             </Button>
-            <Divider mt={20} mb={20} />
-
-            <Table captionSide="top">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Contact</th>
-                    </tr>
-                </thead>
-                <tbody>{rows}</tbody>
-            </Table>
+            {candidates.length > 0 ? (
+                <>
+                    <Divider mt={20} mb={20} />
+                    <Paper withBorder>
+                        <Table captionSide="top">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Contact</th>
+                                </tr>
+                            </thead>
+                            <tbody>{rows}</tbody>
+                        </Table>
+                    </Paper>
+                    <Space h={"xl"} />
+                    <Center>
+                        <Pagination
+                            value={activePage}
+                            onChange={setPage}
+                            total={1}
+                        />
+                    </Center>
+                </>
+            ) : (
+                <></>
+            )}
         </Center>
     );
 };

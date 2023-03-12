@@ -65,7 +65,7 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-export function HeaderSimple({ links }) {
+const HeaderSimple = () => {
     const [opened, { toggle }] = useDisclosure(false);
     const { classes } = useStyles();
 
@@ -73,7 +73,7 @@ export function HeaderSimple({ links }) {
         <Header height={60} mb={120}>
             <Container className={classes.header}>
                 <Link to="/" style={{ textDecoration: "none" }}>
-                    <Image src="logo.svg" maw={150} />
+                    <Image src="logo.svg" maw={170} />
                 </Link>
                 <Burger
                     opened={opened}
@@ -84,4 +84,6 @@ export function HeaderSimple({ links }) {
             </Container>
         </Header>
     );
-}
+};
+
+export default HeaderSimple;
