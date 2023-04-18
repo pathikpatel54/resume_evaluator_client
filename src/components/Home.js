@@ -101,8 +101,7 @@ const Home = () => {
             </Title>
 
             <Text size="lg" className={classes.description}>
-                Revolutionizing the recruitment process with AI based resume
-                review.
+                Simplifying the recruitment process with AI based resume review.
             </Text>
 
             <div className={classes.controls}>

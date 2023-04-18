@@ -14,6 +14,7 @@ import {
     evaluateResumes,
     selectAllCandidates,
 } from "../features/candidates/resumeReducer";
+import { Paginator } from "../utils/paginator";
 
 const EvaluateResume = () => {
     const dispatch = useDispatch();
@@ -30,9 +31,11 @@ const EvaluateResume = () => {
         );
     };
 
-    const rows = candidates.map((candidate) => (
+    const { data, total_pages } = Paginator(candidates, activePage, 5);
+
+    const rows = data.map((candidate) => (
         <tr key={candidate.name}>
-            <td>{candidate.firstName + " " + candidate.lastName}</td>
+            <td>{candidate.name}</td>
             <td>{candidate.email}</td>
             <td>{candidate.phNumber}</td>
         </tr>
@@ -83,7 +86,7 @@ const EvaluateResume = () => {
                         <Pagination
                             value={activePage}
                             onChange={setPage}
-                            total={1}
+                            total={total_pages}
                         />
                     </Center>
                 </>
